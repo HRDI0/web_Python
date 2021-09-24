@@ -1,12 +1,15 @@
 import random
-class monster:
-    def __init__ (self, health, attack, speed):
+class monster:                  #monster 객체
+
+    version = 1.0               #모든 객체들이 공유하는 속성
+    def __init__ (self, health, attack, speed):     #생성자. 객체가 생성되면 자동으로 실행되는 함수
         self.health = health
         self.attack = attack
         self.speed = speed
-    def get_status(self):
-        print(f'hp : {self.get_hp()}, attack : {self.get_attack()}, speed : {self.get_speed()}')
+    def __str__(self):                              #객체를 print에 넣으면 실행됨.
+       return f'hp : {self.get_hp()}, attack : {self.get_attack()}, speed : {self.get_speed()}'
 
+    #instancemethod 인스턴스 속성에 접근할수 있는 메소드
     def decrease_hp(self,num):
         self.health -= num
     def get_hp(self):
@@ -17,7 +20,12 @@ class monster:
         return self.speed
 
 
-class ground(monster):
+    @classmethod        #데코레이티드
+    def _v(cls):        #클래스를 뜻하는 cls 변수
+        print('version : ' + str(cls.version))  #클래스 변수인 version 출력
+
+
+class ground(monster):          #monster 객체를 상속.
     def digg(self):
         self.health += 50
 class water(monster):
@@ -30,12 +38,21 @@ class air(monster):
 class Dragon(air):
     def __init__ (self, health, attack, speed):
         super().__init__(health, attack, speed)
-        self.skill = ('drago_breath','fly_high','iron_tail')
+        self.__skill = ('drago_breath','fly_high','iron_tail')
     def using_skill1(self):
-        print(f'Dragon의 {self.skill[random.randint(0,2)]}')
+        print(f'Dragon의 {self.__skill[random.randint(0,2)]}')
+
+class roll:
+    @staticmethod
+    def dice():
+        return random.randint(0,6)
 
 
+monster._v()
+
+print(roll.dice())
 ork = ground(800,100,40)
+print(ork)
 ork.decrease_hp(80)
 print('You attack ork')
 print(ork.get_hp())
@@ -45,9 +62,10 @@ print(ork.get_hp())
 print('ork run')
 print()
 
+print(roll.dice())
 print('You find Dragon')
 dragon = Dragon(2500,320,250)
-dragon.get_status()
+print(dragon)
 print('Dragon attack You')
 dragon.using_skill1()
 print('Drangon fly')

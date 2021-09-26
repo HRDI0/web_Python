@@ -16,7 +16,9 @@ INSERT_SQL = """
 DELETE_SQL = """
     DELETE FROM Item;
 """
-#cur.execute(DELETE_SQL)
+UPDATE_SQL = """
+    UPDATE Item SET price = 36000 WHERE code = 'A04'; 
+"""
 
 data = (
     ('A02','무선기계식키보드', 89000),
